@@ -25,16 +25,25 @@ export class ItemsService {
   async findOne(id: string): Promise<Item> {
     const item = await this.itemsRepository.findOneBy({id});
 
-    if( !item ) throw new NotFoundException(`item iwth id: ${id} not found`)
+    if( !item ) throw new NotFoundException(`item iwth id: ${id} not found`);
+
     return item;
   }
 
   async update(id: string, updateItemInput: UpdateItemInput) : Promise<Item> {
     const item = await this.itemsRepository.preload(updateItemInput);
+
+    if( !item ) throw new NotFoundException(`item iwth id: ${id} not found`);
+
     return this.itemsRepository.save(item);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} item`;
+  async remove(id: string){
+    //TODO: soft delete, integridad referencial
+    const item = await this.findOne(id);
+    
+    await this.itemsRepository.remove(item);
+
+    return { ...item, id }
   }
 }
