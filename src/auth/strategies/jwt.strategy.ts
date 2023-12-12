@@ -3,11 +3,14 @@ import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { User } from "src/users/entities/user.entity";
+import { JwtPayload } from "../interfaces/jwt-payload.interface";
+import { AuthService } from "../auth.service";
 
 // Definir un servicio inyectable para la estrategia JWT
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(
+        private readonly authService: AuthService,
         configService: ConfigService
     ) {
         // Llamar al constructor de la clase base (PassportStrategy) con opciones de configuración
@@ -19,10 +22,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     // Método para validar y decodificar el payload del token
-    async validate(payload: any): Promise<User> {
-        console.log({ payload }); // Mostrar el payload en la consola (puede ser útil para propósitos de depuración)
+    async validate(payload: JwtPayload): Promise<User> {
 
-        // En este ejemplo, se lanza una excepción no autorizada si la validación no tiene éxito
-        throw new UnauthorizedException('Token not valid');
+        const { id } = payload;
+
+        const user = await this.authService.validateUser(id);
+        
+        
+        return user;
     }
 }
