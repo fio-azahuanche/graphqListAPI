@@ -33,9 +33,8 @@ export class AuthResolver {
   revalidateToken(
     @CurrentUser() user: User
   ): AuthResponse {
-    //return this.authService.revalidateToken(  );
-    console.log('revalidateToken, user:', user);
+
+    return this.authService.revalidateToken(user );
     
-    throw new Error('No implementado');
   }
 }
