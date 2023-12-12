@@ -59,11 +59,9 @@ localhost:3000/graphql
 
 - [x] **Docker y Despliegue:**
    - Uso de Docker para contenerizar la aplicación.
-   - Despliegue en DigitalOcean y gestión de bases de datos con Postgres.
 
 - [x] **Manejo de Errores y Validaciones:**
    - Identificación y manejo de errores comunes en GraphQL.
-   - Implementación de validaciones automáticas y semi-automáticas.
 
 ## Habilidades Adquiridas
 
